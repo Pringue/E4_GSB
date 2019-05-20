@@ -66,7 +66,20 @@ switch ($action)
     case 'ajouterProduit' :
     $lesCategories = getLesCategories();
     $idCategorie = $_REQUEST['categ'];
-    ajoutProduit($_REQUEST["desc"], $_REQUEST["prix"], $_REQUEST["image"], $idCategorie);
+    if (strcmp($idCategorie, "fem") == 0)
+    {
+      $image = "images/femme/".$_FILES["image"]["name"];
+    }
+    if (strcmp($idCategorie, "enf") == 0)
+    {
+      $image = "images/enfant/".$_FILES["image"]["name"];
+    }
+    if (strcmp($idCategorie, "hom") == 0)
+    {
+      $image = "images/homme/".$_FILES["image"]["name"];
+    }
+    $tmp_name = $_FILES["image"]["tmp_name"];
+    ajoutProduit($_REQUEST["desc"], $_REQUEST["prix"], $image, $idCategorie, $tmp_name);
     $lesCategories = getLesCategories();
     include("vues/v_categoriesAdmin.php");
     break;

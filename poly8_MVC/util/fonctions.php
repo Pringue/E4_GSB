@@ -69,19 +69,21 @@ function modifProduit($desc, $prix, $prod)
 {
 	$connexion = connexion();
 	$sql = "UPDATE produit SET prix = $prix, description='$desc' WHERE idProduit = $prod";
-	echo $sql;
 	$connexion->prepare($sql)->execute();
 }
 
-function ajoutProduit($desc, $prix, $image, $categ)
+function ajoutProduit($desc, $prix, $image, $categ, $tmp_name)
 {
 	$connexion = connexion();
 	$sql = "select Max(idProduit) as id from produit";
 	$resultat = $connexion->query($sql)->fetch();
 	$id = $resultat["id"]+1;
 	$sql = "insert into produit (idProduit, description, prix, image, idCategorie) values ($id, '$desc', $prix, '$image', '$categ')";
-	echo $sql;
 	$connexion->prepare($sql)->execute();
+
+	$dirpath = './';
+	$target_file = $dirpath.$image;
+	move_uploaded_file($tmp_name, $target_file);
 }
 
  function getLesProduits($uneCategorie)
