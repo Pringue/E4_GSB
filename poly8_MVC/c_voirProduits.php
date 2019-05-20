@@ -1,0 +1,30 @@
+<?php
+
+$action = $_REQUEST['action'];
+switch($action)
+{
+	case 'voirCategories':
+  		$lesCategories = getLesCategories();
+		include("vues/v_categories.php");
+  		break;
+	case 'voirProduits' :
+		$lesCategories = getLesCategories();
+		include("vues/v_categories.php");
+  		$idCategorie = $_REQUEST['idCategorie'];
+		$lesProduits = getLesProduits($idCategorie);
+		include("vues/v_produits.php");
+		break;
+	case 'voirProduitsEtAjouterAuPanier' :
+		$lesCategories = getLesCategories();
+		include("vues/v_categories.php");
+  		$idCategorie = $_REQUEST['idCategorie'];
+		$lesProduits = getLesProduits($idCategorie);
+		include("vues/v_produits.php");
+		$idProduit=$_REQUEST['produit'];
+		if ($_SESSION["idP"] == null)
+			newPanier();
+	  	ajouterAuPanier($idProduit, $_SESSION["idP"]);
+		break;
+}
+?>
+
